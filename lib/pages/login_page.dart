@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
-  final _tUser = TextEditingController();
-  final _tPwd = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final _tUser = TextEditingController(text: "diler");
+  final _tPwd = TextEditingController(text: "1234");
 
   @override
   Widget build(BuildContext context) {
@@ -19,24 +20,53 @@ class LoginPage extends StatelessWidget {
   }
 
   _body() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      child: ListView(
-        children: [
-          _textFormField("Username", "Type your Login name",
-              controller: _tUser),
-          const SizedBox(
-            height: 10,
-          ),
-          _textFormField("Password", "Type your Password",
-              password: true, controller: _tPwd),
-          const SizedBox(
-            height: 20,
-          ),
-          _elevatedButton("Login", () => _onClickLogin())
-        ],
+    return Form(
+      key: _formKey,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        child: ListView(
+          children: [
+            _textFormField(
+              "Username",
+              "Type your Login name",
+              _validateUser,
+              _tUser,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            _textFormField(
+              "Password",
+              "Type your Password",
+              _validatePwd,
+              _tPwd,
+              password: true,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            _elevatedButton("Login", () => _onClickLogin())
+          ],
+        ),
       ),
     );
+  }
+
+  String? _validatePwd(String? text) {
+    if (text == null || text.isEmpty == true) {
+      return "Pwd required.";
+    }
+    if (text.length < 4) {
+      return "Pwd requires at least 4 chars.";
+    }
+    return null;
+  }
+
+  String? _validateUser(String? text) {
+    if (text?.isEmpty == true) {
+      return "Required.";
+    }
+    return null;
   }
 
   _elevatedButton(String label, onPressed) {
@@ -50,10 +80,13 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  _textFormField(String label, String hint, {password = false, controller}) {
+  _textFormField(String label, String hint,
+      FormFieldValidator<String?> validator, TextEditingController controller,
+      {password = false}) {
     return TextFormField(
       controller: controller,
       obscureText: password,
+      validator: validator,
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,
@@ -62,6 +95,10 @@ class LoginPage extends StatelessWidget {
   }
 
   _onClickLogin() {
+    if (_formKey.currentState?.validate() != true) {
+      return;
+    }
+
     String user = _tUser.text;
     String pwd = _tPwd.text;
     print("$user ; $pwd");
