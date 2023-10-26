@@ -1,3 +1,5 @@
+import 'package:carros/pages/home_page.dart';
+import 'package:carros/utils/nav.dart';
 import 'package:carros/widgets/app_button.dart';
 import 'package:carros/widgets/app_text.dart';
 import 'package:flutter/material.dart';
@@ -94,6 +96,7 @@ class _LoginPageState extends State<LoginPage> {
 
     String user = _tUser.text;
     String pwd = _tPwd.text;
-    print("$user ; $pwd");
+
+    push(context, const HomePage());
   }
 }

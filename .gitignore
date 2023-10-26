@@ -31,5 +31,4 @@ google-services.json
 
 # Android Profiling
 *.hprof
-/.dart_tool/flutter_build/e6d78e81159d9c79e74949278b515fae/.filecache
-/.dart_tool/flutter_build/e6d78e81159d9c79e74949278b515fae/app.dill
+dart_tool/flutter_build/
