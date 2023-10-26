@@ -1,3 +1,5 @@
+import 'package:carros/widgets/app_button.dart';
+import 'package:carros/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -38,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
         padding: const EdgeInsets.all(16),
         child: ListView(
           children: [
-            _textFormField(
+            AppText(
               "Username",
               "Type your Login name",
               _validateUser,
@@ -48,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(
               height: 10,
             ),
-            _textFormField(
+            AppText(
               "Password",
               "Type your Password",
               _validatePwd,
@@ -61,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(
               height: 20,
             ),
-            _elevatedButton("Login", () => _onClickLogin())
+            AppButton("Login", () => _onClickLogin())
           ],
         ),
       ),
@@ -83,46 +85,6 @@ class _LoginPageState extends State<LoginPage> {
       return "Required.";
     }
     return null;
-  }
-
-  _elevatedButton(String label, onPressed) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.blue,
-        padding: const EdgeInsets.all(12),
-      ),
-      child: Text(label),
-    );
-  }
-
-  _textFormField(String label,
-      String hint,
-      FormFieldValidator<String?> validator,
-      TextEditingController controller, {
-        password = false,
-        TextInputType keyboardType = TextInputType.text,
-        TextInputAction textInputAction = TextInputAction.next,
-        FocusNode? focusNode,
-        FocusNode? nextFocus,
-      }) {
-    return TextFormField(
-      controller: controller,
-      obscureText: password,
-      validator: validator,
-      keyboardType: keyboardType,
-      textInputAction: textInputAction,
-      focusNode: focusNode,
-      onFieldSubmitted: (String text) {
-        if (nextFocus != null) {
-          FocusScope.of(this.context).requestFocus(_focusPwd);
-        }
-      },
-      decoration: InputDecoration(
-        labelText: label,
-        hintText: hint,
-      ),
-    );
   }
 
   _onClickLogin() {
