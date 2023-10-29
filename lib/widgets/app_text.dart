@@ -19,7 +19,7 @@ class AppText extends StatelessWidget {
     super.key,
     this.focusNode,
     this.nextFocus,
-    this.password = true,
+    this.password = false,
     this.keyboardType = TextInputType.text,
     this.textInputAction = TextInputAction.next,
   });

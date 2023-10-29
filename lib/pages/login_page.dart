@@ -1,3 +1,4 @@
+import 'package:carros/api/login_api.dart';
 import 'package:carros/pages/home_page.dart';
 import 'package:carros/utils/nav.dart';
 import 'package:carros/widgets/app_button.dart';
@@ -14,8 +15,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
 
   final _formKey = GlobalKey<FormState>();
-  final _tUser = TextEditingController(text: "diler");
-  final _tPwd = TextEditingController(text: "1234");
+  final _tUser = TextEditingController(text: "admin");
+  final _tPwd = TextEditingController(text: "123");
   final _focusPwd = FocusNode();
 
   @override
@@ -76,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
     if (text == null || text.isEmpty == true) {
       return "Pwd required.";
     }
-    if (text.length < 4) {
+    if (text.length < 3) {
       return "Pwd requires at least 4 chars.";
     }
     return null;
@@ -89,14 +90,16 @@ class _LoginPageState extends State<LoginPage> {
     return null;
   }
 
-  _onClickLogin() {
+  _onClickLogin() async {
     if (_formKey.currentState?.validate() != true) {
       return;
     }
 
-    String user = _tUser.text;
-    String pwd = _tPwd.text;
-
-    push(context, const HomePage());
+    final user = await LoginApi.login(_tUser.text, _tPwd.text);
+    if (user != null) {
+      push(context, const HomePage());
+    } else {
+      print("error login");
+    }
   }
 }
