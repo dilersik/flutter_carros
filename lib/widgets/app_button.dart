@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 class AppButton extends StatelessWidget {
-
   final String label;
   final VoidCallback onPressed;
+  final bool showProgress;
 
-  const AppButton(this.label, this.onPressed, {super.key});
+  const AppButton(this.label, this.onPressed,
+      {this.showProgress = false, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,23 @@ class AppButton extends StatelessWidget {
         backgroundColor: Colors.blue,
         padding: const EdgeInsets.all(12),
       ),
-      child: Text(label),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          showProgress
+              ? const SizedBox(
+                  width: 18,
+                  height: 18,
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                  ),
+                )
+              : Text(
+                  label,
+                  style: const TextStyle(fontSize: 16),
+                ),
+        ],
+      ),
     );
   }
 }

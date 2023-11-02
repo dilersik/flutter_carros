@@ -1,5 +1,6 @@
 import 'package:carros/api/login_api.dart';
 import 'package:carros/pages/home_page.dart';
+import 'package:carros/utils/alert.dart';
 import 'package:carros/utils/nav.dart';
 import 'package:carros/widgets/app_button.dart';
 import 'package:carros/widgets/app_text.dart';
@@ -13,11 +14,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   final _formKey = GlobalKey<FormState>();
   final _tUser = TextEditingController(text: "admin");
   final _tPwd = TextEditingController(text: "123");
   final _focusPwd = FocusNode();
+  bool _showProgress = false;
 
   @override
   void initState() {
@@ -66,7 +67,11 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(
               height: 20,
             ),
-            AppButton("Login", () => _onClickLogin())
+            AppButton(
+              "Login",
+              () => _onClickLogin(),
+              showProgress: _showProgress,
+            ),
           ],
         ),
       ),
@@ -95,11 +100,25 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
-    final user = await LoginApi.login(_tUser.text, _tPwd.text);
-    if (user != null) {
-      push(context, const HomePage());
+    setState(() {
+      _showProgress = true;
+    });
+
+    final response = await LoginApi.login(_tUser.text, _tPwd.text);
+    if (response.ok) {
+      final user = response.result;
+      print(">>>> $user");
+      if (context.mounted) {
+        push(context, const HomePage());
+      }
     } else {
-      print("error login");
+      if (context.mounted) {
+        alert(context, "Login failed!", response.msg);
+      }
     }
+
+    setState(() {
+      _showProgress = false;
+    });
   }
 }
