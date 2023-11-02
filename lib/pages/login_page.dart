@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
       final user = response.result;
       print(">>>> $user");
       if (context.mounted) {
-        push(context, const HomePage());
+        push(context, const HomePage(), replace: true);
       }
     } else {
       if (context.mounted) {
