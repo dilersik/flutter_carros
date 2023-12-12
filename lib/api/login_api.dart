@@ -24,7 +24,7 @@ class LoginApi {
       }
       return ApiResponse.error(mapResponse["error"]);
 
-    } catch (error, exception) {
+    } catch (error) {
       return ApiResponse.error(error.toString());
     }
   }
