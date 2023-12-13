@@ -1,24 +1,24 @@
 class Car {
-  late int id;
-  late String name;
-  late String type;
-  late String description;
-  late String photoUrl;
-  late String videoUrl;
-  late String lat;
-  late String long;
+  late int? id;
+  late String? name;
+  late String? type;
+  late String? description;
+  late String? photoUrl;
+  late String? videoUrl;
+  late String? lat;
+  late String? long;
 
   Car(
-      {this.id = 0,
-      this.name = "",
-      this.type = "",
-      this.description = "",
-      this.photoUrl = "",
-      this.videoUrl = "",
-      this.lat = "",
+      {this.id,
+      this.name,
+      this.type,
+      this.description,
+      this.photoUrl,
+      this.videoUrl,
+      this.lat,
       this.long = ""});
 
-  Car.fromJson(Map<String, dynamic> json) {
+  Car.fromJson(Map<dynamic, dynamic> json) {
     id = json['id'];
     name = json['nome'];
     type = json['tipo'];
@@ -29,8 +29,8 @@ class Car {
     long = json['longitude'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+  Map<dynamic, dynamic> toJson() {
+    final Map<dynamic, dynamic> data = <dynamic, dynamic>{};
     data['id'] = id;
     data['nome'] = name;
     data['tipo'] = type;
