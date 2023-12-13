@@ -18,7 +18,22 @@ class HomePage extends StatelessWidget {
   }
 
   _body() {
-    List<Car> cars = CarApi.getCars();
+    return FutureBuilder(
+      future: CarApi.getCars(),
+      builder: (BuildContext context, AsyncSnapshot<List<Car>> snapshot) {
+        if (!snapshot.hasData) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        List<Car>? cars = snapshot.data;
+        return _listView(cars ?? List.empty());
+      },
+    );
+  }
+
+  _listView(List<Car> cars) {
     return Container(
       padding: const EdgeInsets.all(16),
       child: ListView.builder(
