@@ -3,19 +3,17 @@ import 'dart:convert';
 import 'package:carros/domain/car.dart';
 import 'package:http/http.dart' as http;
 
+class CarType  {
+  static const String classic = "classicos";
+  static const String sport = "esportivos";
+  static const String lux = "luxo";
+}
+
 class CarApi {
-  static Future<List<Car>> getCars() async {
-    final url = Uri.https('carros-springboot.herokuapp.com', 'api/v1/carros');
+  static Future<List<Car>> getCars(String carType) async {
+    final url = Uri.https('carros-springboot.herokuapp.com', 'api/v1/carros/tipo/$carType');
     final response = await http.get(url);
 
-    final List list = json.decode(response.body);
-    final cars = List<Car>.empty(growable: true);
-
-    for (Map map in list) {
-      Car c = Car.fromJson(map);
-      cars.add(c);
-    }
-
-    return cars;
+    return json.decode(response.body).map((e) => Car.fromJson(e)).toList();
   }
 }
